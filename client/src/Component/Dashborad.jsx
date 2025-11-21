@@ -28,7 +28,7 @@ export default function Dashborad() {
    const ProductFetch = async () =>{
 
        try{
-        const url = 'http://localhost:2000/api/product'; 
+        const url = 'https://mern-login-form-api.vercel.app/api/product'; 
          const headers = {
           headers :{
           "Authorization" : localStorage.getItem('token')
