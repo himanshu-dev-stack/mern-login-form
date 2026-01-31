@@ -1,7 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { notifySuccess } from './Utilies';
+import { ToastContainer } from 'react-toastify';
+import { useNavigate } from "react-router-dom";
+
 
 export default function ECommerceIndex() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [loggedInUser , setLoggedInUser ] = useState("");
+  
+
+    useEffect(() =>{
+      setLoggedInUser(localStorage.getItem('loggedInUser'))
+    }, []);
+
+
+  const navigate = useNavigate();
+
+
+  const handleLogout = () =>{
+    localStorage.removeItem('token');
+    localStorage.removeItem('loggedInUser');
+    notifySuccess('User Logged Out');
+    setTimeout(()=>{
+     navigate('/login');
+    }, 1000)
+   }
+
 
   const featuredProducts = [
     {
@@ -115,7 +139,7 @@ export default function ECommerceIndex() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-12">
               <h1 className="text-2xl font-light tracking-wider" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-                ATELIER
+                {loggedInUser}
               </h1>
               <div className="hidden md:flex gap-8" style={{ fontFamily: "'Inter', sans-serif" }}>
                 <a href="#" className="nav-link text-sm text-stone-700 hover:text-stone-900">New Arrivals</a>
@@ -150,6 +174,8 @@ export default function ECommerceIndex() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                 </svg>
               </button>
+                  <ToastContainer />
+              <button className='bg-black text-white px-7 py-2 border m-2 cursor-pointer' onClick={handleLogout}>LOGOUT</button>
               {/* Menu Icon */}
               <button 
                 className="md:hidden text-stone-700"
